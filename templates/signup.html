@@ -1,0 +1,45 @@
+{% extends 'login.html' %}
+{% block formName %}
+Sign up
+{% endblock formName %}
+
+{% block username %}
+<div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+    <input class="input100" type="text" name="username" placeholder="Username">
+    <span class="focus-input100"></span>
+    <span class="symbol-input100">
+        <span class="lnr lnr-user"></span>
+    </span>
+</div>
+{% endblock %}
+
+
+{% block confirmEmail %}
+<div class="wrap-input100 validate-input m-b-16" data-validate="Emails must match">
+    <input class="input100" type="email" name="confirmEmail" data-compare="email" placeholder="Confirm email">
+    <span class="focus-input100"></span>
+    <span class="symbol-input100">
+        <span class="lnr lnr-envelope"></span>
+    </span>
+</div>
+{% endblock confirmEmail %}
+
+
+{% block confirmPassword %}
+<div class="wrap-input100 validate-input m-b-16" data-validate="Passwords must match">
+    <input class="input100" type="password" name="confirmPass" data-compare="pass" placeholder="Confirm password">
+    <span class="focus-input100"></span>
+    <span class="symbol-input100">
+        <span class="lnr lnr-lock"></span>
+    </span>
+</div>
+{% endblock confirmPassword %}
+
+
+{% block submit %}
+<div class="container-login100-form-btn p-t-25">
+    <button class="login100-form-btn" type="submit" form="form" formaction="/signup">
+        Sign Up
+    </button>
+</div>
+{% endblock submit %}

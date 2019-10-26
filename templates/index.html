@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block body %}
+
+<div class="container-login100">
+    <div class="main">
+        <button id="openNav" class="w3-button w3-teal w3-xlarge" style="height: 10%;margin-left: 10px;"
+            onclick="w3_open()">&#9776;</button>
+        <div class="left-panel w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+
+            <div class="left-content">
+                <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close &times;</button>
+                <div class="user-info">
+                    <!-- <div class="round-image"> -->
+                    <input id="upload" type="file" accept="image/png, image/jpeg" style="display: none;" />
+                    <div class="container">
+                        <img src="{{user.profile_image}}" id="profile-image" alt="{{user.username}}'s profile image"
+                            class="avatar profile">
+                        <div>
+                            <div class="overlay">
+                                <a href="" id="upload_link" class="icon" title="User Profile">
+                                    <i class="lnr lnr-pencil"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- </div> -->
+                    <br>
+                    <span class="username">
+                        <h4>{{user.username}}</h4>
+                    </span>
+                </div>
+                <hr>
+
+                <div class="sidelinks">
+                    <span class="sidelink"><a href="{{url_for('upcomming')}}">Upcomming</a></span>
+                    <br>
+                    <span class="sidelink"><a href="{{url_for('add_event')}}">Add event</a></span>
+                    <br>
+                    <!-- <span class="sidelink"><a href="#">Remove event</a></span> <br> -->
+                    <!-- <span class="sidelink"><a href="#">Update event</a></span> <br> -->
+                    <!-- <span class="sidelink"><a href="#">Add friend</a></span> <br> -->
+                    <div class="leave sidelink">
+
+                        <a href="/leave" class="leave">
+                            <span class="lnr lnr-exit"></span>
+                            Leave
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="main"></div>
+        <div class="main-panel">
+            {% block main_panel %}
+
+            {% endblock main_panel %}
+        </div>
+    </div>
+</div>
+{% endblock body %}
+{% block scripts %}
+<script>
+    $("#upload_link").on('click', function (e) {
+        e.preventDefault();
+        $("#upload:hidden").trigger('click');
+    });
+    $("#upload").change(function (e) {
+        let uri = '/saveImage'
+        const xhr = new XMLHttpRequest()
+        const fd = new FormData()
+
+        xhr.open('POST', '/profile_pic', true)
+
+        fd.append('image', e.target.files[0])
+        xhr.send(fd)
+        //window.location.assign('/profile_pic/' + URL.createObjectURL(event.target.files[0]));
+        $('#profile-image').attr('src', fd['image'].filename);
+    });
+</script>
+<script>
+    function w3_open() {
+        //document.getElementById("main").style.marginLeft = "25%";
+        document.getElementById("mySidebar").style.width = "25%";
+        document.getElementById("mySidebar").style.display = "block";
+        document.getElementById("openNav").style.display = 'none';
+    }
+    function w3_close() {
+        //document.getElementById("main").style.marginLeft = "0%";
+        document.getElementById("mySidebar").style.display = "none";
+        document.getElementById("openNav").style.display = "inline-block";
+    }
+</script>
+{% block script %}
+
+{% endblock script %}
+{% endblock scripts %}

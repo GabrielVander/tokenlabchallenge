@@ -1,0 +1,24 @@
+{% extends 'index.html' %}
+{% block main_panel %}
+<div class="row">
+    <div class="col">
+            <input id="upload" type="file" style="display: none;" />
+        
+        <br>
+        <h4>{{user.username}}</h4>
+    </div>
+</div>
+<div class="row">
+
+</div>
+{% endblock main_panel %}
+
+{% block script %}
+<script>
+    $("#upload_link").on('click', function (e) {
+        console.log('clicked anchor')
+        e.preventDefault();
+        $("#upload:hidden").trigger('click');
+    });
+</script>
+{% endblock script %}

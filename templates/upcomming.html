@@ -1,0 +1,92 @@
+{% extends 'index.html' %}
+{% block main_panel %}
+{% if not events.count() %}
+<h6 style="top: 45%; position: relative; ">It looks empty, go create some events!</h6>
+{% endif %}
+{% for e in events %}
+<div class="card event " {% if e.ends_at < now() %} style="opacity: 0.5" {% endif %}>
+
+    {% if e.created_by == user.username %}
+    <div class="edit">
+        <a href="/edit_event/{{e.id}}" {% if e.ends_at < now() %} class="disabled" {% endif %}>
+            <i class="lnr lnr-pencil edit-icon" style="color: #0250c5;"></i>
+        </a>
+    </div>
+    {% endif %}
+
+    <div class="exclude">
+        <a href="javascript:exclude({{e.id}})">
+            <i class="lnr lnr-trash" style="color: #c80000;"></i>
+        </a>
+    </div>
+    <div class="card-title">
+        <h3>{{e.title}}</h3>
+        by {{e.created_by}}
+
+    </div>
+
+    <div class="card-body">
+        <h5>{{e.description}}</h5>
+        <hr>
+        {% for u in e.attendees %}
+        <img src="{{u.profile_image}}" alt="{{u.username}}'s profile image" class="avatar" data-toggle="tooltip"
+            title="{{u.username}}" style="width: 25px;height:25px;">
+        {% endfor %}
+
+    </div>
+
+    <div class="card-footer">
+        <div class="row">
+            <div class="col" style="color: darkgreen">
+                Starts at: {{e.starts_at.strftime('%d/%m/%Y %H:%M')}}
+
+            </div>
+            <div class="col" style="color: darkred">
+                Ends at: {{e.ends_at.strftime('%d/%m/%Y %H:%M')}}
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- </div> -->
+    <!-- <div class="col"> -->
+
+    <!-- </div>
+        </div>
+    </div> -->
+</div>
+
+{% endfor %}
+{% endblock main_panel %}
+
+{% block script %}
+<script>
+    function exclude(e_id) {
+        bootbox.confirm({
+            message: "Are you sure you want to stop attending this event? This cant be undone.",
+            buttons: {
+                confirm: {
+                    label: 'Yes',
+                    className: 'btn-success'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result) {
+                    window.location.href = "/exclude/" + e_id;
+                }
+            }
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+{% endblock %}

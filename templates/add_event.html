@@ -1,0 +1,132 @@
+{% extends 'index.html' %}
+{% block main_panel %}
+<form id="form" method="POST">
+
+    {% if event %}
+    <p class="h4 mb-4">Edit event</p>
+    {% else %}
+    <p class="h4 mb-4">Create event</p>
+    {% endif %}
+
+    <input type="text" name="title" id="defaultContactFormName" {% if event %} value="{{event.title}}" {% endif %} class="form-control mb-4" placeholder="Title" required>
+
+    <!-- <input type="text" id="defaultContactFormEmail" class="form-control mb-4" placeholder="E-mail"> -->
+    <!-- <textarea class="form-control rounded-0" id="exampleFormControlTextarea2" rows="3" placeholder="Message"></textarea> -->
+    <div class="row">
+        <div class="col">
+            <input type="datetime" class="form-control mb-4" required readonly style="background-color: transparent;"
+                name="date-start" placeholder="Starting date" {% if event %} value="{{event.starts_at}}" {% endif %}
+                id="date-start" required>
+        </div>
+        <div class="col">
+            <input type="datetime" value="" {% if event is defined %} disabled {% endif %} class="form-control mb-4" {% if event %} value="{{event.ends_at}}"
+                {% endif %} readonly placeholder="Ending date" name="date-finish" id="date-finish">
+        </div>
+    </div>
+
+    <!-- Subject -->
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control mb-4" name="attendees" {% if event %}
+                value="{{';'.join(map(str, event.attendees[1:]))}}" {% endif %}
+                placeholder="Type here the usernames of those who will participate (separated by semicolons)">
+        </div>
+
+    </div>
+
+    <!-- Message -->
+    <div class="form-group">
+        <textarea class="form-control rounded-0" name="description" id="exampleFormControlTextarea2" rows="3" placeholder="Short description" required
+            style="resize: none" maxlength='250'>{% if event %} {{event.description}}{% endif %}</textarea>
+    </div>
+
+    <!-- Send button -->
+    <div class="container-login100-form-btn p-t-25">
+        <button class="login100-form-btn" type="submit" form="form">
+            {% if event %}
+            Save
+            {% else %}
+            Create
+
+            {% endif %}
+        </button>
+    </div>
+
+</form>
+<!-- Default form contact -->
+{% endblock main_panel %}
+
+{% block script %}
+<script type="text/javascript">
+    function enableEndDate() {
+
+
+        let dateFinish = $('#date-finish');
+        dateFinish.prop('disabled', false);
+        dateFinish.css('background-color', 'transparent');
+
+        /*let timeStart = $('#time-start');
+        timeStart.prop('disabled', false);
+        timeStart.css('background-color', 'transparent');
+
+
+        $('#time-start').prop('disabled', false);*/
+
+
+        let startDate = $('#date-start').val();
+        $('#date-finish').datetimepicker({
+            format: 'd/m/Y H:i',
+            formatDate: 'd/m/Y',
+            formatTime: 'H:i',
+            minDate: startDate.split(' ')[0],
+            minTime: startDate.split(' ')[1],
+            defaultDate: 0,
+            startDate: startDate,
+            disabledDates: {{ disabled_dates| safe }},
+            //timepicker: false,
+            /*onSelectDate: function (ct, $i) {
+                let timeFinish = $('#time-finish');
+                timeFinish.prop('disabled', false);
+                timeFinish.css('background-color', 'transparent');
+
+                let finishDate = $('#date-finish').val()
+
+                $('#time-finish').datetimepicker({
+                    format: 'H:i',
+                    formatTime: 'H:i',
+                    //defaultTime: '',
+                    datepicker: false,
+                    minTime: finishDate === startDate ? $('#time-start').val() : false,
+                });
+            }*/
+        });
+
+        /*$('#time-start').datetimepicker({
+            format: 'H:i',
+            //defaultTime: '',
+            datepicker: false,
+
+        });*/
+    }
+    $('#date-start').datetimepicker({
+        format: 'd/m/Y H:i',
+        formatDate: 'd/m/Y',
+        minDate: 0,
+        defaultDate: 0,
+        minTime: 0,
+        disabledDates: {{ disabled_dates| safe }},
+        //defaultDate: '0',
+        //timepicker: false,
+        onChangeDateTime: enableEndDate,
+        onSelectDate: function (ct) {
+
+            this.setOptions({
+                minTime: false,
+            })
+        }
+    }
+    );
+
+
+</script>
+{% endblock script %}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="https://linearicons.com/free/icon/book" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="../static/css/util.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+    <!--===============================================================================================-->
+    <title>
+        Calendar
+    </title>
+    
+    {% block head %}
+
+    {% endblock head %}
+
+</head>
+
+<body>
+    <div class="limiter">
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for msg in messages %}
+
+        <div class="alert alert-danger alert-dismissible" style="z-index: 10;position:absolute; text-align: center;
+            left: 0; 
+            right: 0; 
+            margin-left: auto; 
+            margin-right: auto; 
+            width: {{msg|length * 15}}px;">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{msg}}
+        </div>
+        {% endfor %}
+
+        <!-- {{session.pop('_flashes', None)}} -->
+
+        {% endif %}
+        {% endwith %}
+        {% block body %}
+
+        {% endblock body %}
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="../static/vendor/bootstrap/js/tooltip.js"></script>
+    <script src="../static/vendor/moment/moment.min.js"></script>
+
+    <!--===============================================================================================-->
+    <script src="../static/vendor/bootstrap/js/popper.js"></script>
+    <script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../static/vendor/bootbox/bootbox.min.js"></script>
+
+    <!-- <script src="../static/vendor/bootstrap/js/bootstrap.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="../static/vendor/datetimepicker-master/jquery.datetimepicker.css" />
+    <!-- <script src="../static/vendor/datetimepicker-master/jquery.js"></script> -->
+    <script src="../static/vendor/datetimepicker-master/build/jquery.datetimepicker.full.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../static/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="../static/js/main.js"></script>
+
+    {% block scripts %}
+
+    {% endblock scripts %}
+
+</body>
+
+</html>
